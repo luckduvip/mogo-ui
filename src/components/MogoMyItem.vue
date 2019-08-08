@@ -15,7 +15,7 @@ export default{
 		appendLabel: { type: String, default: '' },
 		icon: { type: String,},
 		id: { type: String,},
-		rightIcon: { type: String, default: require('../../images/my-arrow.png')},
+		rightIcon: { type: Boolean},
 	},
 	methods: {
 		clickHandle(){

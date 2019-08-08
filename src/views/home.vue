@@ -1,12 +1,15 @@
 <template>
 	<div class="outer">
-		<mogo-header theme="light" right="显示什么" borderBottom="#eee">
+		<mogo-header theme="light" fixed right="显示什么" borderBottom="#eee">
 			lasdkfkasdfkasd
 			<mogo-tab slot="append" v-model="tabId" :list="tabs" id="test-mogo-tab"></mogo-tab>
 		</mogo-header>
 		<template v-for="item in myItems">
-			<mogo-my-item @myClick="myItemClickHandle" :id="item.id" :icon="item.icon" :label="item.label" :appendLabel="item.appendLabel" :rightIcon="item.rightIcon" :key="item.id"></mogo-my-item>
+			<mogo-my-item @myClick="myItemClickHandle" :id="item.id" :icon="item.icon" :label="item.label" :appendLabel="item.appendLabel" rightIcon :key="item.id"></mogo-my-item>
 		</template>
+		<mogo-header theme="light" borderBottom="#eee">
+			lasdkfkasdfkasd
+		</mogo-header>
 		<mogo-point>1</mogo-point>
 		<mogo-point w="80" h="80" fz="40" color="#fff">1</mogo-point>
 		<mogo-title>按钮</mogo-title>

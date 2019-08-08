@@ -17,6 +17,8 @@
 			<mogo-radio-group :list="list" v-model="formValues.radioCId" />
 			<mogo-select :list="list" v-model="formValues.sex" label="性别"/>
 			<mogo-slider v-model="formValues.sliderVal" :min="sliderMin" :max="sliderMax" class="my-slider" :unit="sliderUnit" />
+
+			<mogo-slider v-model="formValues.sliderVal" :min="sliderMin" :max="sliderMax" class="my-slider" />
 			<mogo-protocol v-model="formValues.switchVal" label="阅读并同意" :linkInfo="linkInfo"></mogo-protocol>
 		</mogo-form>
 		</mogo-panel>

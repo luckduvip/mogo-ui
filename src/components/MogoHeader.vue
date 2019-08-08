@@ -9,7 +9,7 @@
 				</div>
 			</slot>
 			<slot>标题</slot>
-			<slot name="right">
+			<slot name="right" v-if="right !== false">
 				<div @click="rightClick" class="mogo-header-right">{{right}}</div>
 			</slot>
 			<div class="mogo-header-h-border" v-if="borderBottom!=''" :style="{'border-bottom-color':borderBottom}"></div> 
@@ -55,12 +55,10 @@ export default{
 		/**主题名称，黑色，白色**/
 		theme: {type: String, default: 'dark'},
 		/**是否position:fixed
-			0: position: relative
-			1: position: fixed
+			false: position: relative
+			true: position: fixed
 			**/
-		fixed: { type: String, default: '1', },
-		/**自动宽度**/
-		autoWidth: { type: String,default: '1' },
+		fixed: { type: Boolean, default: false, },
 		/**border-bottom颜色**/
 		borderBottom: { type: String, default: '' },
 	},

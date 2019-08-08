@@ -95,7 +95,7 @@ export default{
 		currVal: { type: Number, },
 		min: { type: Number, default:0 },
 		max: { type: Number, default:100 },
-		unit: { type: Number, default:1 },
+		unit: { type: Number, default:0 },
 	},
 	computed:{
 		getStyle(){
