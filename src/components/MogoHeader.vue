@@ -1,26 +1,28 @@
 <template>
-<div>
-	<header class="header" :class="theme" ref="header">
-		<div class="header-main">
-			<div :class="{auto:autoWidth==1}" class="left-wrap flex" @click="leftClick">
-				<slot name="left">
-					<img v-if="theme == 'light'" src="../../images/header-back-1.png"/>
-					<img v-else src="../../images/header-back-2.png"/>
-				</slot>
-			</div>
-			<div class="header-h1"><slot>标题</slot></div>
-			<div :class="{auto:autoWidth==1}" class="right-wrap flex" @click="rightClick" >
-				<slot name="right"></slot>
-			</div>
+<header class="mogo-header">
+	<div class="mogo-header-main" ref="header" :class="getHeaderClass">
+		<div class="mogo-header-h mogo-flex">
+			<slot name="left"> 
+				<div class="mogo-header-left">
+					<mogo-icon @click="leftClick" class="mogo-header-icon" className="mogo-dingbudaohang-fanhui"></mogo-icon>
+					<mogo-icon @click="callClose" v-if="canClose" class="mogo-header-icon" className="mogo-dingbudaohang-shanchu" ></mogo-icon>
+				</div>
+			</slot>
+			<slot>标题</slot>
+			<slot name="right">
+				<div @click="rightClick" class="mogo-header-right">{{right}}</div>
+			</slot>
+			<div class="mogo-header-h-border" v-if="borderBottom!=''" :style="{'border-bottom-color':borderBottom}"></div> 
 		</div>
-		<div class="border-bottom" :style="{'border-bottom-color': borderBottom}" v-if="borderBottom"></div>
-	</header>
-	<div :style="{height:headerHeight+'px'}" class="keep" v-if="keep"></div>
-</div>
+		<slot name="append"></slot>
+	</div>
+	<div class="block" v-if="fixed" :style="{height:headerHeight+'px'}"></div>
+</header>
 </template>
 
 <script>
 import Mogo from 'mogo-lib';
+import MogoIcon from '_supports/MogoIcon';
 export default{
 	data(){
 		return {
@@ -28,19 +30,39 @@ export default{
 		}
 	},
 	computed: {
+		getHeaderClass(){
+			let className = [];
+			if(this.fixed){
+				className.push('mogo-header-main-fixed')
+			}
+			if(this.theme == 'dark' || this.theme == 'light'){
+				className.push(`mogo-header-main-${this.theme}`);
+			}
+			return className;
+		}
 	},
 	props: {
+		/**
+		 * 如果为false则不显示
+		 * 如果没有则slot=right则显示默认
+		 * **/
+		right: {
+			type: [String,Boolean],
+			default: false,
+		},
+		/**是否允许关闭**/
+		canClose: Boolean,
 		/**主题名称，黑色，白色**/
 		theme: {type: String, default: 'dark'},
 		/**是否position:fixed
 			0: position: relative
 			1: position: fixed
 			**/
-		keep: { type: String, default: '1', },
+		fixed: { type: String, default: '1', },
 		/**自动宽度**/
 		autoWidth: { type: String,default: '1' },
 		/**border-bottom颜色**/
-		borderBottom: { type: String, default: '#ddd' },
+		borderBottom: { type: String, default: '' },
 	},
 	methods: {
 		initHeader(){
@@ -69,6 +91,16 @@ export default{
 				window.api && api.closeWin();
 			}
 		},
+		/**
+		 * canClose时点击关闭时的处理方法
+		 **/
+		callClose(){
+			if (typeof this.$listeners.close !== 'undefined') {
+				this.$emit('close')
+			} else {
+				api.closeWin();
+			}
+		},
         // 右侧按钮事件
         rightClick () {
             // 如果是 a 标签，且有 href, 不进行回调
@@ -81,59 +113,55 @@ export default{
 	},
 	mounted(){
 		this.initHeader();
-	}
+	},
+	components: {MogoIcon,},
 }
 </script>
 
 <style scoped lang="scss">
-*{
-	padding: 0; margin: 0; box-sizing: border-box; 
-}
-.header{
-	position: fixed; left: 0; top: 0; width: 100%; 
+$height: 88px;
+.mogo-header{
 	&-main{
-		display: flex; align-items: center;
-		height: 88px; position: relative;
-	}
-	.border-bottom{
-		position: absolute; width: 100%; height: 2px; border-bottom: 1px solid #ddd; transform-origin: center top; transform: scale(1,.5); -webkit-transform: scale(1,.5);
-	}
-	.left-wrap{
-		display: block; height: 88px; padding: 22px 0 22px 20px; 
-		&.auto{
-			width: 100px;
-		}
-		img{
-			display: block; width: 40px; height: 40px;
-		}
-	}
-	.right-wrap{
-		display: block; font-size: 24px; color: #666; text-align: right; padding-right: 20px;
-		&.auto{
-			width: 100px;
-		}
-	}
-	&-h1{
-		flex: 1; -webkit-flex: 1;
-		display: block; text-align: center; font-size: 32px; color: #222;
-	}
-	&.light{
 		background: #fff;
-		.header-h1{
-			color: #222;
+		&-fixed{
+			position: fixed; width: 100%; left: 0; top: 0; z-index: 10;
 		}
-		.right-wrap{
-			color: #666;
+		&-dark{
+			$color: #fff;
+			background: #666;
+			.mogo-header{
+				&-right,
+				&-h,
+				&-icon{
+					color: $color;
+				}
+			}
 		}
 	}
-	&.dark{
-		background: #000;
-		.header-h1{
-			color: #fff;
+	&-h{
+		position: relative; height: $height; padding-left: 150px; padding-right: 150px;
+		align-items: center; justify-content: center;
+		&-border{
+			width: 100%; height: 2px;/*no*/ left: 0; bottom: 0; position: absolute;
+			border-bottom-width: 1px;
+			border-bottom-style: solid;
+			box-sizing: border-box;
+			pointer-event: none;
+			-webkit-box-sizing: border-box;
+			transform-origin: 0 bottom;
+			transform: scaleY(.5);
+			-webkit-transform-origin: 0 bottom;
+			-webkit-transform: scaleY(.5);
 		}
-		.right-wrap{
-			color: #999;
-		}
+	}
+	&-left{
+		position: absolute; left: 20px; top: 0;
+	}
+	&-right{
+		position: absolute; right: 20px; top: 0; line-height: $height; font-size: 26px; color: #666;
+	}
+	&-icon{
+		height: $height; width: 40px; float: left;
 	}
 }
 </style>

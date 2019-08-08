@@ -1,0 +1,259 @@
+@charset 'utf-8';
+@import './default.scss';
+$color_green: #07C160;
+$color_red: #E5382E;
+%common-boxsizing {
+	box-sizing:border-box;
+	-webkit-box-sizing:border-box; /* Safari */
+}
+@mixin mogo-radius($val) {
+	border-radius: $val; -webkit-border-radius: $val;
+}
+@mixin mogo-bsd( $a, $b, $c, $color ) {
+	box-shadow: $a $b $c $color;
+	-webkit-box-shadow: $a $b $c $color;
+}
+@mixin mogo-flex-item($val : 1){
+	flex: $val; -webkit-flex: $val;
+}
+%mogo-circle {
+	border-radius: 50%; -webkit-border-radius: 50%;
+}
+*{
+	padding: 0; margin: 0;
+	@extend %common-boxsizing;
+}
+%flex {
+	display: flex;
+	display: -webkit-flex;
+}
+.mogo-flex{
+	@extend %flex;
+	&-wrap{
+		flex-wrap: wrap;
+	}
+	&-column{
+		flex-direction: column;
+	}
+}
+@mixin mogo-lineheight{ @extend %flex; align-items: center; }
+@mixin mogo-bdr($bdColor: #ddd){
+	position: relative;
+	&:before{
+		content: ''; width: 2px; height: 100%; right: 0; top: 0; position: absolute;
+		border-right: 1px solid $bdColor;
+		box-sizing: border-box;
+		pointer-event: none;
+		-webkit-box-sizing: border-box;
+		transform-origin: 0 100%;
+		transform: scaleX(.5);
+		-webkit-transform-origin: 0 100%;
+		-webkit-transform: scaleX(.5);
+	}
+}
+@mixin mogo-bdl($bdColor: #ddd){
+	position: relative;
+	&:before{
+		content: ''; width: 2px; height: 100%;/*no*/ left: 0; top: 0; position: absolute;
+		border-left: 1px solid $bdColor;/*no*/
+		box-sizing: border-box;
+		pointer-event: none;
+		-webkit-box-sizing: border-box;
+		transform-origin: 0 0;
+		transform: scaleX(.5);
+		-webkit-transform-origin: 0 0;
+		-webkit-transform: scaleX(.5);
+	}
+}
+@mixin mogo-bdb($bdColor: #ddd){
+	position: relative;
+	&:after{
+		content: ''; width: 100%; height: 2px;/*no*/ left: 0; bottom: 0; position: absolute;
+		border-bottom: 1px solid $bdColor;/*no*/
+		box-sizing: border-box;
+		pointer-event: none;
+		-webkit-box-sizing: border-box;
+		transform-origin: 0 bottom;
+		transform: scaleY(.5);
+		-webkit-transform-origin: 0 bottom;
+		-webkit-transform: scaleY(.5);
+	}
+}
+@mixin mogo-bdt($bdColor: #ddd){
+	position: relative;
+	&:before{
+		content: ''; width: 100%; height: 2px;/*no*/ left: 0; top: 0; position: absolute;
+		border-top: 1px solid $bdColor;/*no*/
+		box-sizing: border-box;
+		pointer-event: none;
+		-webkit-box-sizing: border-box;
+		transform-origin: 0 0;
+		transform: scaleY(.5);
+		-webkit-transform-origin: 0 0;
+		-webkit-transform: scaleY(.5);
+	}
+}
+.mogo-cell{
+	@extend %flex;
+	padding: 16px;
+}
+
+.mogo-input{
+	border: 0; margin: 0; padding: 0; outline: 0;
+	font-size: 24px;
+}
+.mogo-label{
+	display: block; height: 120px; align-items: center; background: #fff; position: relative;
+	&-text{
+		float: left; line-height: 120px;
+		display: block; font-size: 30px; color: #222; width: 150px; padding: 0 0px 0 30px;
+	}
+	&-main{
+		@extend %flex; @include mogo-flex-item; @include mogo-bdb(#eee);
+		align-items: center; height: 100%; padding-left: 30px; padding-right: 30px;
+	}
+	&-error{
+		display: block; font-size: 44px; color: #E5382E;
+	}
+	&-input{
+		@include mogo-flex-item; 
+		.mogo-input{
+			@include mogo-flex-item;
+			display: block; font-size: 28px; color: #222;
+		}
+	}
+	&.mogo-checkbox{
+		@extend %flex;
+		align-items: center;
+		padding: 0 30px;
+		.mogo-checkbox-icon{
+			display: block; font-size: 40px; margin-left: 10px;
+			color: rgba(0,0,0,.4);
+		}
+		&-select{
+			.mogo-checkbox-icon{
+				color: #F43A24;
+			}
+		}
+	}
+}
+.mogo-checkbox{
+
+}
+.mogo-switch{
+	$color: rgba(0,0,0,.1);
+	@include mogo-radius(21px); overflow: hidden;
+	position: relative; width: 62px; height: 42px; border: 1px solid $color; background: $color;
+	&-bg{
+		position: absolute; width: 60px; height: 40px; left: 0; top: 0; background: #fdfdfd;
+		transform-origin: center right;
+		transition: transform .4s cubic-bezier(.45,1,.4,1);
+		-webkit-transition: -webkit-transform .4s cubic-bezier(.45,1,.4,1);
+
+	}
+	&-ball{
+		@extend %mogo-circle;
+		position: absolute; width: 40px; height: 40px; left: 0; top: 0; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.4);
+		transition: transform .4s cubic-bezier(.45,1,.4,1);
+		-webkit-transition: -webkit-transform .4s cubic-bezier(.45,1,.4,1);
+	}
+	&.selected{
+		$color: #07C160;
+		border-color: $color; background: $color;
+		.mogo-switch-bg{
+			transform: scaleX(0);
+		}
+		.mogo-switch-ball{
+			transform: translateX(20px);
+		}
+	}
+}
+
+.mogo-textarea{
+	position: relative; display: block; margin-top: 12px;
+	background: #fff; 
+	&-main{
+		display: block; border: 0; margin: 0; padding: 0; outline: none; background: none; font-size: 30px; line-height: 48px; 
+	}
+	&-tips{
+		display: block; text-align: right; font-size: 24px; color: rgba(0,0,0,.3);
+	}
+}
+.mogo-select1{
+	height: 120px; align-items: center; background: #fff; 
+	&-prev{
+		display: block; font-size: 30px; color: #222; min-width: 140px; padding: 0 20px 0 30px;
+	}
+	&-main{
+		@extend %flex; @include mogo-flex-item; @include mogo-bdb(#eee);
+		height: 100%; color: #000; font-size: 28px; color: #222;
+		background: none; border: 0; margin: 0; padding: 0; outline: none;
+	}
+}
+
+.mogo-protocol{
+	margin-top: 16px; align-items: center; height: 72px; 
+	&-main{
+		display: block; font-size: 32px; margin-right: 12px;
+		&.selected{
+			color: $color_green;
+		}
+	}
+	&-label{
+		display: block; color: rgba(0,0,0,.5); font-size: 36px; margin-right: 12px;
+	}
+	&-link{
+		display: block; font-size: 36px; color: #576b95;
+	}
+}
+.mogo-panel{
+	background: #fff; 
+	%header_css {
+		padding: 0 16px; height: 86px; align-items: center; font-weight: 600; font-weight: 36px; color: #666;
+		.mogo-panel-arrow {
+			font-weight: 400; display: block; margin-left: auto;
+		}
+	}
+	&-header{
+		@extend %header_css;
+		border-bottom: .5px solid #ddd;
+	}
+	&-footer{
+		@extend %header_css;
+		border-top: .5px solid #ddd;
+	}
+}
+.mogo-slider{
+	position: relative; display: block; height: 40px; padding: 16px 0;
+	&-bar{
+		@include mogo-radius(4px)
+		display: block; height: 8px; background: $color_green;
+	}
+	$ball : 40px;
+	&-main{
+		position: absolute; left: $ball/2; right: $ball/2; height: 100%; top: 0;
+	}
+	&-ball{
+		@extend %mogo-circle; @include mogo-bsd( 0, 2px, 8px, #ccc );
+		position: absolute; width: $ball; height: $ball; top: (40px-$ball)/2; background: #fff; 
+		transform: translateX(-50%);
+	}
+}
+.mogo-msg-btn{
+	@include mogo-lineheight; @include mogo-radius(8px);
+	width: 160px; height: 58px; color: $color_red; font-size: 26px; border: .5px solid $color_red; justify-content: center; margin-left: 20px;
+	&.disable{
+		border-color: #d8d8d8; color: #d8d8d8;
+	}
+}
+
+.mogo-title{
+	display: block; font-size: 24px; color: #666; padding: 20px; background: #f9f9f9;
+}
+
+body{
+	background: #f9f9f9;
+}
+
+
+

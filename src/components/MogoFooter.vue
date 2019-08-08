@@ -1,7 +1,7 @@
 <template>
 	<footer class="mogo-footer" :style="{'background-color': background}">
 		<div class="mogo-footer-item" v-for="item in list" :key="item.id" :class="{active: currentId == item.id}" @click="clickHandle(item.id)">
-			<i v-if="item.fontName" :class="item.fontName" :style="getIconColor(item.id)"></i>
+			<mogo-icon class="mogo-footer-item-icon" v-if="item.fontName" :className="item.fontName" :style="getIconColor(item.id)"></mogo-icon>
 			<template v-else>
 				<img :src="item.icon" v-show="currentId != item.id" />
 				<img :src="item.activeIcon" v-show="currentId == item.id" />
@@ -16,6 +16,8 @@
 </template>
 
 <script>
+
+import MogoIcon from '_supports/MogoIcon';
 import MogoPoint from '_components/MogoPoint';
 export default{
 	props: {
@@ -67,13 +69,13 @@ export default{
 			}
 		}
 	},
-	components: {MogoPoint,},
+	components: {MogoPoint,MogoIcon,},
 }
 </script>
 <style scoped lang="scss">
 .mogo-footer{
 	display: flex; display: -webkit-flex;
-	position: fixed; width: 100%; height: 98px; left: 0; bottom: 0; align-items: center;
+	position: fixed; width: 100%; height: 98px; left: 0; bottom: 0; align-items: center; z-index: 100; background: #fff;
 	.border-top{
 		position: absolute; left: 0; top: 0; width: 100%; height: 2px; border-top: 1px solid #ddd; transform-origin: center top; transform: scale(1,.5); -webkit-transform: scale(1,.5);
 	}
@@ -82,8 +84,8 @@ export default{
 		img{
 			display: block; width: 44px; height: 44px;
 		}
-		i{
-			display: block; width: 40px; height: 40px; line-height: 40px; text-align: center; font-size: 40px;
+		&-icon{
+			display: block; line-height: 40px; text-align: center; font-size: 40px;
 		}
 		span{
 			position: absolute; width: 300%; left: -100%; bottom: 0; font-size: 20px; text-align: center; line-height: 20px; color: #222;

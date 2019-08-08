@@ -1,19 +1,28 @@
 var path = require('path');
 var webpack = require('webpack'),
+	HtmlWebpackPlugin = require('html-webpack-plugin'),
 	VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
 	plugins: [
-		new VueLoaderPlugin()
+		new VueLoaderPlugin(),
+		new HtmlWebpackPlugin({
+			template: path.resolve('./html/index.html'),
+			inject: false,
+			hash: true
+		}),
 	],
-	entry: './src/main.js',
+	entry: {
+		main: './src/main.js',
+		base_css: './src/base.scss',
+	},
 	output: {
 		path: path.resolve(__dirname, './dist'),
-		publicPath: '/dist/',
+		publicPath: '',
 		library: 'MogoHeader',
 		libraryTarget: 'umd',
 		umdNamedDefine: true,
-		filename: 'build.js'
+		filename: '[name].js'
 	},
 	module: {
 		rules: [
@@ -81,8 +90,10 @@ module.exports = {
 	},
 	resolve: {
 		alias: {
-			'vue$': 'vue/dist/vue.esm.js',
+			'vue': 'vue/dist/vue.esm.js',
 			'_components': path.resolve('src/components'),
+			'_supports': path.resolve('src/supports'),
+			'_views': path.resolve('src/views'),
 			'_images': path.resolve('images'),
 		},
 		extensions: ['*', '.js', '.vue', '.json']

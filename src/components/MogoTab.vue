@@ -63,6 +63,7 @@ export default{
 </script>
 <style scoped lang="scss">
 .mogo-tab{ 
+	background: #fff;
 	display: flex; display: -webkit-flex; align-items: center; position: relative;
 	&-item{
 		flex: 1; -webkit-flex: 1; font-size: 24px; color: #000; text-align: center;
@@ -73,8 +74,8 @@ export default{
 	&-bottom{
 		position: absolute; height: 1px; background: red; bottom: 0; width: 100%;
 		transform-origin: left bottom; transform: scale(1,.5);
-		transition: left .3s ease-in;
-		-webkit-transition: left .3s ease-in;
+		transition: left .2s ease-in;
+		-webkit-transition: left .2s ease-in;
 	}
 }
 
