@@ -42,6 +42,5 @@
 		"url": "https://github.com/luckduvip/mogo-ui/issues"
 	},
 	"homepage": "https://github.com/luckduvip/mogo-ui#readme",
-	"devDependencies": {
-	}
+	"devDependencies": {}
 }
