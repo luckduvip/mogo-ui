@@ -1,13 +1,13 @@
 {
 	"name": "mogo-ui",
 	"description": "mogo company vue ui",
-	"version": "1.0.11",
+	"version": "1.0.12",
 	"author": "luckduvip <luckduvip@163.com>",
 	"main": "dist/build.js",
 	"license": "MIT",
 	"scripts": {
 		"dev": "cross-env NODE_ENV=development webpack-dev-server --mode development --progress",
-		"build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+		"build": "cross-env NODE_ENV=production webpack --mode production --progress --hide-modules"
 	},
 	"dependencies": {
 		"@babel/core": "^7.1.5",

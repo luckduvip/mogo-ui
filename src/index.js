@@ -8,18 +8,18 @@ import mogoFooter from '_components/MogoFooter.vue';
 import mogoMyItem from '_components/MogoMyItem.vue';
 import mogoHeader from '_components/MogoHeader.vue';
 
-import MogoRadioGroup from '_components/MogoRadioGroup';
-import MogoCheckboxGroup from '_components/MogoCheckboxGroup';
-import MogoInput from '_components/MogoInput';
+import mogoRadioGroup from '_components/MogoRadioGroup';
+import mogoCheckboxGroup from '_components/MogoCheckboxGroup';
+import mogoInput from '_components/MogoInput';
 
-import MogoBtn from '_components/MogoBtn';
-import MogoSlider from '_components/MogoSlider';
-import MogoProtocol from '_components/MogoProtocol';
-import MogoSelect from '_components/MogoSelect';
-import MogoForm from '_components/MogoForm';
-import MogoSwitch from '_components/MogoSwitch';
-import MogoTextarea from '_components/MogoTextarea';
-import MsgBtn from '_supports/MsgBtn';
+import mogoBtn from '_components/MogoBtn';
+import mogoSlider from '_components/MogoSlider';
+import mogoProtocol from '_components/MogoProtocol';
+import mogoSelect from '_components/MogoSelect';
+import mogoForm from '_components/MogoForm';
+import mogoSwitch from '_components/MogoSwitch';
+import mogoTextarea from '_components/MogoTextarea';
+import msgBtn from '_supports/MsgBtn';
 /*
  *export default {
  *    MogoTab,
@@ -32,14 +32,14 @@ export const MogoMyItem = mogoMyItem;
 export const MogoFooter = mogoFooter;
 export const MogoHeader = mogoHeader;
 
-export const MogoRadioGroup = MogoRadioGroup;
-export const MogoCheckboxGroup = MogoCheckboxGroup;
-export const MogoInput = MogoInput;
-export const MogoSwitch = MogoSwitch;
-export const MogoTextarea = MogoTextarea;
-export const MogoSelect = MogoSelect;
-export const MogoProtocol = MogoProtocol;
-export const MogoForm = MogoForm;
-export const MogoSlider = MogoSlider;
-export const MogoBtn = MogoBtn;
-export const MsgBtn = MsgBtn;
+export const MogoRadioGroup = mogoRadioGroup;
+export const MogoCheckboxGroup = mogoCheckboxGroup;
+export const MogoInput = mogoInput;
+export const MogoSwitch = mogoSwitch;
+export const MogoTextarea = mogoTextarea;
+export const MogoSelect = mogoSelect;
+export const MogoProtocol = mogoProtocol;
+export const MogoForm = mogoForm;
+export const MogoSlider = mogoSlider;
+export const MogoBtn = mogoBtn;
+export const MsgBtn = msgBtn;

@@ -3,19 +3,42 @@ var webpack = require('webpack'),
 	HtmlWebpackPlugin = require('html-webpack-plugin'),
 	VueLoaderPlugin = require('vue-loader/lib/plugin');
 
-module.exports = {
-	plugins: [
+let plugins,
+	entry,
+	devtool;
+if (process.env.NODE_ENV === 'production') {
+	entry = './src/index.js';
+	devtool = '#source-map'
+	// http://vue-loader.vuejs.org/en/workflow/production.html
+	plugins = (module.exports.plugins || []).concat([
+		new webpack.DefinePlugin({
+			'process.env': {
+				NODE_ENV: '"production"'
+			}
+		}),
+		new webpack.LoaderOptionsPlugin({
+			minimize: true
+		}),
+		new VueLoaderPlugin(),
+	])
+}else{
+	devtool= '#eval-source-map';
+	plugins = [
 		new VueLoaderPlugin(),
 		new HtmlWebpackPlugin({
 			template: path.resolve('./html/index.html'),
 			inject: false,
 			hash: true
 		}),
-	],
-	entry: {
+	];
+	entry = {
 		main: './src/main.js',
 		base_css: './src/base.scss',
-	},
+	};
+}
+module.exports = {
+	plugins,
+	entry,
 	output: {
 		path: path.resolve(__dirname, './dist'),
 		publicPath: '',
@@ -107,21 +130,6 @@ module.exports = {
 	performance: {
 		hints: false
 	},
-	devtool: '#eval-source-map'
+	devtool,
 }
 
-if (process.env.NODE_ENV === 'production') {
-	module.exports.entry= './src/index.js';
-	module.exports.devtool = '#source-map'
-	// http://vue-loader.vuejs.org/en/workflow/production.html
-	module.exports.plugins = (module.exports.plugins || []).concat([
-		new webpack.DefinePlugin({
-			'process.env': {
-				NODE_ENV: '"production"'
-			}
-		}),
-		new webpack.LoaderOptionsPlugin({
-			minimize: true
-		})
-	])
-}
