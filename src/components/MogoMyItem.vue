@@ -1,9 +1,13 @@
 <template>
 	<div class="my-item" @click="clickHandle">
-		<img :src="icon" v-if="icon" class="my-item-icon"/>
+		<slot name="icon" v-if="icon != false">
+			<mogo-icon :className="icon" class="my-item-icon" />
+		</slot>
 		<span class="my-item-label">{{label}}</span>
 		<span class="my-item-append-label" v-if="appendLabel">{{appendLabel}}</span>
-		<mogo-icon className="mogo-liebiao-jiantou" v-if="rightIcon" class="my-item-arrow" />
+		<slot name="right" v-if="rightIcon !== false">
+			<mogo-icon :className="rightIcon" class="my-item-arrow" />
+		</slot>
 	</div>
 </template>
 
@@ -12,10 +16,10 @@ import MogoIcon from '_supports/MogoIcon';
 export default{
 	props: {
 		label: { type: String, default: 'label的内容' },
-		appendLabel: { type: String, default: '' },
+		appendLabel: { type: [String,Boolean], default: false },
 		icon: { type: String,},
 		id: { type: String,},
-		rightIcon: { type: Boolean},
+		rightIcon: { type: [String,Boolean], default: false},
 	},
 	methods: {
 		clickHandle(){
@@ -41,10 +45,11 @@ export default{
 		display: block; font-size: 28px; color: #b6b6b6; margin-right: 20px;
 	}
 	&-arrow{
-		display: block; font-size: 18px; color: #ddd;
+		display: block; font-size: 32px; color: #ddd;
 	}
 	&-icon{
-		display: block; width: 40px; height: 40px; margin-right: 24px;
+		display: block; 
+		font-size: 40px; margin-right: 24px; color: #222;
 	}
 }
 </style>

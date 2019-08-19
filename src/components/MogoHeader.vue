@@ -4,8 +4,8 @@
 		<div class="mogo-header-h mogo-flex">
 			<slot name="left"> 
 				<div class="mogo-header-left">
-					<mogo-icon @click="leftClick" class="mogo-header-icon" className="mogo-dingbudaohang-fanhui"></mogo-icon>
-					<mogo-icon @click="callClose" v-if="canClose" class="mogo-header-icon" className="mogo-dingbudaohang-shanchu" ></mogo-icon>
+					<mogo-icon @iconClick="leftClick" class="mogo-header-icon" className="mogo-dingbudaohang-fanhui"></mogo-icon>
+					<mogo-icon @iconClick="callClose" v-if="canClose" class="mogo-header-icon" className="mogo-dingbudaohang-shanchu" ></mogo-icon>
 				</div>
 			</slot>
 			<slot>标题</slot>

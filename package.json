@@ -1,9 +1,9 @@
 {
 	"name": "mogo-ui",
 	"description": "mogo company vue ui",
-	"version": "1.0.12",
+	"version": "1.0.15",
 	"author": "luckduvip <luckduvip@163.com>",
-	"main": "dist/build.js",
+	"main": "dist/main.js",
 	"license": "MIT",
 	"scripts": {
 		"dev": "cross-env NODE_ENV=development webpack-dev-server --mode development --progress",

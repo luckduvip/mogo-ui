@@ -257,3 +257,9 @@ body{
 
 
 
+.mogofade-enter-active, .mogofade-leave-active {
+	transition: opacity .5s;
+}
+.mogofade-enter, .mogofade-leave-to /* .mogofade-leave-active below version 2.1.8 */ {
+	opacity: 0;
+}

@@ -20,6 +20,7 @@ import mogoForm from '_components/MogoForm';
 import mogoSwitch from '_components/MogoSwitch';
 import mogoTextarea from '_components/MogoTextarea';
 import msgBtn from '_supports/MsgBtn';
+import mogoLayer from '_components/MogoLayer';
 /*
  *export default {
  *    MogoTab,
@@ -43,3 +44,4 @@ export const MogoForm = mogoForm;
 export const MogoSlider = mogoSlider;
 export const MogoBtn = mogoBtn;
 export const MsgBtn = msgBtn;
+export const MogoLayer = mogoLayer;

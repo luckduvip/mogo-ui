@@ -75,9 +75,9 @@ npm run dev
 
 + appendLabel: 右边文案
 
-+ icon: 左边图标
++ icon:String/false 左边图标,如果===false，不显示，或者显示<slot name="left"/> 最后则可能显示className
 
-+ rightIcon: Boolean 右边图标，为true则有 '>' 图标在右侧
++ rightIicon:String/false 右边图标,如果===false，不显示，或者显示<slot name="right"/> 最后则可能显示className
 
 + id: 组件id，组件被点击的时候会向外发出myClick事件，会带上这个id的
 
@@ -269,6 +269,48 @@ npm run dev
 		<mogo-btn class="test-btn" disabled type="button" className="bg-circle">半圆背景</mogo-btn>
 		<mogo-btn class="test-btn" disabled type="button" className="bd-circle">半圆边框</mogo-btn>
 		<mogo-btn class="test-btn" disabled type="button" className="bg-rect">矩形背景</mogo-btn>
+```
+
+### mogo-layer
+
+> 弹窗
+
+#### 使用例子
+
+```
+		/**
+		 * 打开toast弹窗
+		 *
+		 * @param {String} label 文案
+		 * @param {String} iconClass iconfont className
+		 * @param {String/false} showMask=false 遮罩背景颜色,!== false则为颜色
+		 * @param {Number/true} delay=true 是否定时关闭
+		 */
+		openToast(label,iconClass,showMask=false,delay=5000)
+this.$refs.mogoLayer.openToast('这这是一个浮窗toast这是一个浮窗toast这是一个浮窗toast是一个浮窗toast','mogo-dingbudaohang-shanchu mogofont','rgba(0,0,0,.1)');
+
+		/**
+		 * 显示带按钮的确认弹窗
+		 *
+		 * @param {Object} confirm 弹窗的信息
+		 * 	{
+		 * 		label: String 内容文案
+		 * 		title: String 弹窗标题,如果''则不显示 
+		 * 		confirmLabel: String default '确定',确定按钮文案
+		 * 		cancelLabel:String 取消按钮文案
+		 * 		handle:Function 点击确认/取消时的回调
+		 * 			handle(true) 确定
+		 * 			handle(false) 取消
+		 * 	}
+		 * @param {String/false} showMask=false 弹窗遮罩
+		 */
+this.$refs.mogoLayer.openConfirm({
+	label: '我我我是内容我是内容是内容我我是内容我是内容是内容我是内容我是内容是内容',
+	title: '我是标题',
+	handle: (flag)=>{
+		console.log(`the result ==${flag}`,this.myItems);
+	}
+},'rgba(0,0,0,.1)');
 ```
 
 ### to be continue...

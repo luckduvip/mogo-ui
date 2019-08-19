@@ -1,11 +1,11 @@
 <template>
 	<div class="outer">
-		<mogo-header theme="light" fixed right="显示什么" borderBottom="#eee">
+		<mogo-header theme="light" fixed right="显示什么" borderBottom="#eee" @left="leftHandle">
 			lasdkfkasdfkasd
 			<mogo-tab slot="append" v-model="tabId" :list="tabs" id="test-mogo-tab"></mogo-tab>
 		</mogo-header>
 		<template v-for="item in myItems">
-			<mogo-my-item @myClick="myItemClickHandle" :id="item.id" :icon="item.icon" :label="item.label" :appendLabel="item.appendLabel" rightIcon :key="item.id"></mogo-my-item>
+			<mogo-my-item @myClick="myItemClickHandle" :id="item.id" :icon="item.icon" :label="item.label" :appendLabel="item.appendLabel" rightIcon="mogo-liebiao-jiantou" :key="item.id"></mogo-my-item>
 		</template>
 		<mogo-header theme="light" borderBottom="#eee">
 			lasdkfkasdfkasd
@@ -24,6 +24,7 @@
 		<mogo-btn class="test-btn" disabled type="button" className="bg-circle">半圆背景</mogo-btn>
 		<mogo-btn class="test-btn" disabled type="button" className="bd-circle">半圆边框</mogo-btn>
 		<mogo-btn class="test-btn" disabled type="button" className="bg-rect">矩形背景</mogo-btn>
+		<mogo-layer ref="mogoLayer"/>
 	</div>
 </template>
 
@@ -35,6 +36,7 @@ import MogoTab from '_components/MogoTab';
 import MogoMyItem from '_components/MogoMyItem';
 import MogoTitle from '_supports/MogoTitle';
 import MogoBtn from '_components/MogoBtn';
+import MogoLayer from '_components/MogoLayer';
 	export default{
 		data(){
 			return {
@@ -46,8 +48,8 @@ import MogoBtn from '_components/MogoBtn';
 					{ id: '4', label: '中的' },
 				],
 				myItems: [
-					{ id: 'income', label: '我的订单', appendLabel: '共0单', icon: require('_images/my-income.png'), },
-					{ id: 'test', label: '我的收藏', appendLabel: '', icon: require('_images/my-notice.png'), } 
+					{ id: 'income', label: '我的订单', appendLabel: '共0单', icon: 'mogo-dingbudaohang-fanhui', },
+					{ id: 'test', label: '我的收藏', appendLabel: '', icon: 'mogo-dingbudaohang-fanhui', } 
 				],
 			}
 		},
@@ -61,14 +63,28 @@ import MogoBtn from '_components/MogoBtn';
 		props: {
 		},
 		methods: {
+			leftHandle(){
+				console.log('lllllll');
+			},
 			myItemClickHandle(id){
 				alert(`item clicked ${id}`);
 			}
 		},
 		mounted(){
+			this.$refs.mogoLayer.openToast('这这是一个浮窗toast这是一个浮窗toast这是一个浮窗toast是一个浮窗toast','mogo-dingbudaohang-shanchu mogofont','rgba(0,0,0,.1)');
+			setTimeout(()=>{
+				this.$refs.mogoLayer.openConfirm({
+					label: '我我我是内容我是内容是内容我我是内容我是内容是内容我是内容我是内容是内容',
+					title: '我是标题',
+					handle: (flag)=>{
+						console.log(`the result ==${flag}`,this.myItems);
+					}
+				},'rgba(0,0,0,.1)');
+			},12000);
 		},
 		components: {MogoTab,MogoMyItem,MogoHeader,MogoPoint,
 MogoTitle, MogoBtn,
+			MogoLayer,
 		},
 
 	}

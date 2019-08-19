@@ -1,5 +1,5 @@
 <template>
-	<div class="icon-outer mogo-flex">
+	<div class="icon-outer mogo-flex" @click="clickHandle">
 		<i class="mogofont" :class="className" ></i>
 	</div>
 </template>
@@ -7,6 +7,11 @@
 <script>
 export default{
 	computed: {
+	},
+	methods: {
+		clickHandle(){
+			this.$emit('iconClick');
+		},
 	},
 	props: {
 		className: {
