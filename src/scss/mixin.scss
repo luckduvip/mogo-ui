@@ -1,0 +1,93 @@
+@charset 'utf-8';
+@import './default.scss';
+%common-boxsizing {
+	box-sizing:border-box;
+	-webkit-box-sizing:border-box; /* Safari */
+}
+@mixin mogo-radius($val) {
+	border-radius: $val; -webkit-border-radius: $val;
+}
+@mixin mogo-bsd( $a, $b, $c, $color ) {
+	box-shadow: $a $b $c $color;
+	-webkit-box-shadow: $a $b $c $color;
+}
+@mixin mogo-flex-item($val : 1){
+	flex: $val; -webkit-flex: $val;
+}
+%mogo-circle {
+	border-radius: 50%; -webkit-border-radius: 50%;
+}
+*{
+	padding: 0; margin: 0;
+	@extend %common-boxsizing;
+}
+%flex {
+	display: flex;
+	display: -webkit-flex;
+}
+.mogo-flex{
+	@extend %flex;
+	&-wrap{
+		flex-wrap: wrap;
+	}
+	&-column{
+		flex-direction: column;
+	}
+}
+@mixin mogo-lineheight{ @extend %flex; align-items: center; }
+@mixin mogo-bdr($bdColor: #ddd){
+	position: relative;
+	&:before{
+		content: ''; width: 2px; height: 100%; right: 0; top: 0; position: absolute;
+		border-right: 1px solid $bdColor;
+		box-sizing: border-box;
+		pointer-event: none;
+		-webkit-box-sizing: border-box;
+		transform-origin: 0 100%;
+		transform: scaleX(.5);
+		-webkit-transform-origin: 0 100%;
+		-webkit-transform: scaleX(.5);
+	}
+}
+@mixin mogo-bdl($bdColor: #ddd){
+	position: relative;
+	&:before{
+		content: ''; width: 2px; height: 100%;/*no*/ left: 0; top: 0; position: absolute;
+		border-left: 1px solid $bdColor;/*no*/
+		box-sizing: border-box;
+		pointer-event: none;
+		-webkit-box-sizing: border-box;
+		transform-origin: 0 0;
+		transform: scaleX(.5);
+		-webkit-transform-origin: 0 0;
+		-webkit-transform: scaleX(.5);
+	}
+}
+@mixin mogo-bdb($bdColor: #ddd){
+	position: relative;
+	&:after{
+		content: ''; width: 100%; height: 2px;/*no*/ left: 0; bottom: 0; position: absolute;
+		border-bottom: 1px solid $bdColor;/*no*/
+		box-sizing: border-box;
+		pointer-event: none;
+		-webkit-box-sizing: border-box;
+		transform-origin: 0 bottom;
+		transform: scaleY(.5);
+		-webkit-transform-origin: 0 bottom;
+		-webkit-transform: scaleY(.5);
+	}
+}
+@mixin mogo-bdt($bdColor: #ddd){
+	position: relative;
+	&:before{
+		content: ''; width: 100%; height: 2px;/*no*/ left: 0; top: 0; position: absolute;
+		border-top: 1px solid $bdColor;/*no*/
+		box-sizing: border-box;
+		pointer-event: none;
+		-webkit-box-sizing: border-box;
+		transform-origin: 0 0;
+		transform: scaleY(.5);
+		-webkit-transform-origin: 0 0;
+		-webkit-transform: scaleY(.5);
+	}
+}
