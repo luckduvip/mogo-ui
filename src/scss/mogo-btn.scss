@@ -1,5 +1,5 @@
 @charset 'utf-8';
-@import '../base.scss';
+@import './base.scss';
 
 %myradius {
 	@include mogo-radius(8px);

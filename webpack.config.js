@@ -33,7 +33,7 @@ if (process.env.NODE_ENV === 'production') {
 	];
 	entry = {
 		main: './src/main.js',
-		base_css: './src/base.scss',
+		base_css: './src/scss/base.scss',
 	};
 }
 module.exports = {
