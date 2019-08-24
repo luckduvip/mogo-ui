@@ -6,12 +6,14 @@
 					<i class="layer-toast-icon" :class="toast.iconClass" v-if="toast.iconClass"></i>
 					<span class="layer-toast-label">{{toast.label}}</span>
 				</article>
-				<article class="layer-confirm" v-if="show == 'confirm'">
-					<header class="layer-confirm-header">{{confirm.title}}</header>
-					<p class="layer-confirm-main">{{confirm.label}}</p>
+				<article class="layer-confirm" v-if="show == 'confirm'" :class="{'layer-confirm_title':confirm.title}">
+					<header v-if="confirm.title" class="layer-confirm-header">{{confirm.title}}</header>
+					<p class="layer-confirm-main" v-html="confirm.label"></p>
 					<footer class="layer-confirm-footer">
 						<div @click="callConfirmHandle(false)" class="layer-confirm-footer-btn cancel-btn" v-if="!!confirm.cancelLabel">{{confirm.cancelLabel}}</div>
-						<div @click="callConfirmHandle(true)" class="layer-confirm-footer-btn confirm-btn">{{confirm.confirmLabel || '确定'}}</div>
+						<slot name="confirm">
+							<div @click="callConfirmHandle(true)" class="layer-confirm-footer-btn confirm-btn">{{confirm.confirmLabel || '确定'}}</div>
+						</slot>
 					</footer>
 				</article>
 			</div>
@@ -110,6 +112,21 @@ export default{
 
 <style scoped lang="scss">
 @charset 'utf-8';
+
+@mixin mogo-bdt($bdColor: #ddd){
+	position: relative;
+	&:after{
+		content: ''; width: 100%; height: 2px;/*no*/ left: 0; top: 0; position: absolute;
+		border-top: 1px solid $bdColor;/*no*/
+		box-sizing: border-box;
+		pointer-event: none;
+		-webkit-box-sizing: border-box;
+		transform-origin: 0 top;
+		transform: scaleY(.5);
+		-webkit-transform-origin: 0 top;
+		-webkit-transform: scaleY(.5);
+	}
+}
 @mixin mogo-bdb($bdColor: #ddd){
 	position: relative;
 	&:after{
@@ -156,17 +173,16 @@ export default{
 	}
 }
 .layer-confirm{
-	display: block; border-radius: 20px; width: 602px; background: #fff;
+	display: block; border-radius: 20px; width: 602px; background: #fff; padding-top: 44px;
 	&-header{
-		@include mogo-bdb(#e6e6e6);
-		display: block; text-align: center; font-size: 32px; color: #222; padding: 28px 0;
+		display: block; text-align: center; font-size: 34px; color: #222; padding: 0 48px; font-weight: 600; line-height: 54px;
 	}
 	&-main{
-		@include mogo-bdb(#e6e6e6);
-		display: block; padding: 48px; text-align: center; font-size: 32px; color: #222; line-height: 46px;
+		display: block; padding: 0 48px; text-align: center; font-size: 32px; color: #222; line-height: 46px;
 	}
 	&-footer{
-		display: flex; display: -webkit-flex; height: 98px; align-items: center;
+		@include mogo-bdt(#e6e6e6);
+		display: flex; display: -webkit-flex; height: 98px; align-items: center; margin-top: 44px;
 		&-btn{
 			flex: 1; -webkit-flex: 1;
 			display: flex; display: -webkit-flex; height: 100%; align-items: center; justify-content: center;
@@ -178,6 +194,11 @@ export default{
 			&.confirm-btn{
 				color: #DF4D44;
 			}
+		}
+	}
+	&_title{
+		.layer-confirm-footer{
+			margin-top: 36px;
 		}
 	}
 }

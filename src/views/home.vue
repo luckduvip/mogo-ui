@@ -78,9 +78,19 @@ import MogoLayer from '_components/MogoLayer';
 					title: '我是标题',
 					handle: (flag)=>{
 						console.log(`the result ==${flag}`,this.myItems);
+						
 					}
 				},'rgba(0,0,0,.1)');
-			},12000);
+			},2000);
+			setTimeout(()=>{
+				this.$refs.mogoLayer.openConfirm({
+					label: '我我我是内容我是内容是<br/>内容我我是内容我是内容是内容我是内容<br/>我是内容是内容',
+					handle: (flag)=>{
+						console.log(`the result ==${flag}`,this.myItems);
+						
+					}
+				},'rgba(0,0,0,.1)');
+			},4000);
 		},
 		components: {MogoTab,MogoMyItem,MogoHeader,MogoPoint,
 MogoTitle, MogoBtn,
