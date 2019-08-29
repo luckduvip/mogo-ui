@@ -1,0 +1,41 @@
+@charset 'utf-8';
+@import './mixin.scss';
+
+.mogo-label{
+	display: block; height: 120px; align-items: center; background: #fff; position: relative;
+	&-text{
+		float: left; line-height: 120px;
+		display: block; font-size: 30px; color: #222; width: 150px; padding: 0 0px 0 30px;
+	}
+	&-main{
+		@extend %flex; @include mogo-flex-item; @include mogo-bdb(#eee);
+		align-items: center; height: 100%; padding-left: 30px; padding-right: 30px;
+	}
+	&-error{
+		display: block; font-size: 44px; color: #E5382E;
+	}
+	&-select{
+		display: block; font-size: 28px; color: #222;
+	}
+	&-input{
+		@include mogo-flex-item; 
+		.mogo-input{
+			@include mogo-flex-item;
+			display: block; font-size: 28px; color: #222;
+		}
+	}
+	&.mogo-checkbox{
+		@extend %flex;
+		align-items: center;
+		padding: 0 30px;
+		.mogo-checkbox-icon{
+			display: block; font-size: 40px; margin-left: 10px;
+			color: rgba(0,0,0,.4);
+		}
+		&-select{
+			.mogo-checkbox-icon{
+				color: #F43A24;
+			}
+		}
+	}
+}
