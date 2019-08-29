@@ -5,7 +5,12 @@
 			<mogo-input :error="formErrors.includes('name')" v-model="formValues.name" label="用户名" />
 			<mogo-input :error="formErrors.includes('nickname')" v-model="formValues.nickname" label="呢称" />
 			<mogo-input :error="formErrors.includes('email')" v-model="formValues.email" label="邮箱" />
-			<mogo-input :error="formErrors.includes('phone')" v-model="formValues.phone" label="手机" />
+
+			<mogo-input readonly type="number" v-model.number="formValues.clickTime" label="点击次数" @input-click="formValues.clickTime ++" />
+
+			<mogo-input type="number" :error="formErrors.includes('phone')" v-model="formValues.phone" label="手机" />
+			<mogo-select :list="list" v-model="formValues.sex" label="性别"/>
+
 			<mogo-input :error="formErrors.includes('password')" ref="input_password" v-model="formValues.password" label="密码" type="password" />
 			<mogo-input :error="formErrors.includes('rePassword')" v-model="formValues.rePassword" label="确认密码" type="password" />
 			<mogo-input :error="formErrors.includes('age')" v-model="formValues.age" label="验证码" type="number" append="1">
@@ -15,7 +20,6 @@
 			</mogo-input>
 			<mogo-checkbox-group :list="list" v-model="formValues.checkboxGroupIds" />
 			<mogo-radio-group :list="list" v-model="formValues.radioCId" />
-			<mogo-select :list="list" v-model="formValues.sex" label="性别"/>
 			<mogo-slider v-model="formValues.sliderVal" :min="sliderMin" :max="sliderMax" class="my-slider" :unit="sliderUnit" />
 
 			<mogo-slider v-model="formValues.sliderVal" :min="sliderMin" :max="sliderMax" class="my-slider" />
@@ -50,10 +54,11 @@ export default{
 			/**表单验证结果**/
 			submitResult: '',
 			formValues: {
+				clickTime: 0,
 				name: 'luckduvip',
 				nickname: '我是杜小蛙',
 				email: 'luckduvip@163.com',
-				phone: '13123123123',
+				phone: '',
 				password: 'lu',
 				rePassword: 'lulululul1ulu',
 				age: 0,
@@ -66,6 +71,7 @@ export default{
 			},
 			formErrors: [],
 			formRules: {
+
 				'name': { label: '用户名', isRequired: 1, reg: /^\S{6,20}$/, regError: '用户名必须为6-20位数字/字母/符号' },
 				'nickname': { label: '呢称', isRequired: 1, reg: /^.{3,16}$/, regError: '呢称必须为3-16位字符' },
 				'email': { label: '邮箱', reg:  /^\w+((.\w+)|(-\w+))@[A-Za-z0-9]+((.|-)[A-Za-z0-9]+).[A-Za-z0-9]+$/},

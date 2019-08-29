@@ -24,7 +24,7 @@ export default{
 	}
 }
 </script>
-<style scoped lang="scss">
+<style lang="scss">
 @charset 'utf-8';
 @import '../scss/mixin.scss';
 .mogo-switch{

@@ -120,6 +120,8 @@ npm run dev
 
 + append:String/Boolean 左侧显示的文案，如果有传入slot="append"时无视此参数，(如果===false时右侧不显示 )
 
++ readonly:Boolean 是否为只读的，如果为true的话label 点击会处向发送一个input-click事件
+
 + error:Boolean 是否输入有错，配合mogo-form使用
 
 

@@ -1,10 +1,10 @@
 <template>
-<label class="mogo-label">
+<label class="mogo-label" @click="clickHandle">
 	<slot name="label" v-if="label !== false"><span class="mogo-label-text">{{label}}</span></slot>
 	<div class="mogo-label-main mogo-flex">
 		<div class="mogo-label-input">
-			<input :placeholder="placeholder" v-if="type == 'number'" class="mogo-input" v-model.number="myVal" type="number" />
-			<input :placeholder="placeholder" v-else class="mogo-input" v-model="myVal" :type="type"/>
+			<input :readonly="readonly" :placeholder="placeholder" v-if="type == 'number'" class="mogo-input" v-model.number="myVal" type="number" />
+			<input :readonly="readonly" :placeholder="placeholder" v-else class="mogo-input" v-model="myVal" :type="type"/>
 		</div>
 		<mogo-icon className="mogo-biaodan-baocuo" class="mogo-label-error" v-if="error" />
 		<slot name="append" ></slot>
@@ -31,6 +31,14 @@ export default{
 		label: { type: [String,Boolean], default: false },
 		append: { type: [String,Boolean], default: false },
 		error: { type: [Boolean], default: false },
+		readonly: Boolean, //如果为true则点击时发送事件
+	},
+	methods: {
+		clickHandle(e){
+			if(this.readonly){
+				this.$emit('input-click');
+			}
+		}
 	},
 	computed: {
 		myVal: {
@@ -45,6 +53,6 @@ export default{
 	components: {MogoIcon,},
 }
 </script>
-<style scoped>
-
+<style lang="scss">
+@import '../scss/mogoinput.scss';
 </style>

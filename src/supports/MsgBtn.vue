@@ -54,6 +54,16 @@ export default{
 	}
 }
 </script>
-<style scoped>
+<style lang="scss">
+@charset 'utf-8';
+@import '../scss/mixin.scss';
 
+.mogo-msg-btn{
+	@include mogo-radius(8px);
+	width: 160px; height: 58px; color: $color_red; font-size: 26px; border: .5px solid $color_red; justify-content: center; margin-left: 20px; display: block; line-height: 56px;;
+	text-align: center;
+	&.disable{
+		border-color: #d8d8d8; color: #d8d8d8;
+	}
+}
 </style>

@@ -2,7 +2,7 @@
 	<label class="mogo-select mogo-label">
 		<slot name="label" v-if="label !== false"><span class="mogo-label-text">{{label}}</span></slot>
 		<div class="mogo-label-main">
-			<select v-model="myVal" class="mogo-label-input">
+			<select v-model="myVal" class="mogo-label-select">
 				<template v-for="item in list">
 					<option :key="item.id" :value="item.id">{{item.label}}</option>
 				</template>
@@ -39,6 +39,6 @@ export default{
 	components: {MogoIcon,}
 }
 </script>
-<style scoped>
-
+<style lang="scss">
+@import '../scss/mogoinput.scss';
 </style>
