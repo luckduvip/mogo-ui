@@ -1,7 +1,5 @@
 @charset 'utf-8';
 @import './mixin.scss';
-$color_green: #07C160;
-$color_red: #E5382E;
 .mogo-cell{
 	@extend %flex;
 	padding: 16px;

@@ -10,7 +10,7 @@ export default{
 	props: {
 		switched: {
 			type: Boolean,
-		}
+		},
 	},
 	model: {
 		prop: 'switched',
@@ -21,38 +21,45 @@ export default{
 			console.log(this.switched);
 			this.$emit('switchHandle',!this.switched);
 		}
-	}
+	},
 }
 </script>
 <style lang="scss">
 @charset 'utf-8';
 @import '../scss/mixin.scss';
+$color: rgba(0,0,0,.1);
+$w: 82px; $h: 50px;
+$p: 2px;
 .mogo-switch{
-	$color: rgba(0,0,0,.1);
-	@include mogo-radius(21px); overflow: hidden;
-	position: relative; width: 62px; height: 42px; border: 1px solid $color; background: $color;
+	@include mogo-radius($h/2); position: relative;
+	width: $w; height: $h; background: #ccc; overflow: hidden;
+	will-change: transform;
 	&-bg{
-		position: absolute; width: 60px; height: 40px; left: 0; top: 0; background: #fdfdfd;
-		transform-origin: center right;
-		transition: transform .4s cubic-bezier(.45,1,.4,1);
-		-webkit-transition: -webkit-transform .4s cubic-bezier(.45,1,.4,1);
-
+		will-change: transform;
+		width: $w; height: $h; 
+		background: $color_green;
+		transition: transform .2s linear;
+		transform-origin: 0% 100%;
+		transform: scaleX(0);
 	}
 	&-ball{
-		@extend %mogo-circle;
-		position: absolute; width: 40px; height: 40px; left: 0; top: 0; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.4);
-		transition: transform .4s cubic-bezier(.45,1,.4,1);
-		-webkit-transition: -webkit-transform .4s cubic-bezier(.45,1,.4,1);
+		@include mogo-radius(50%);
+		width: ($h - $p * 2); height: ($h - $p * 2);
+		position: absolute; 
+		left: $p; top: $p; 
+		background: #fff;
+		transition: transform .2s linear;
 	}
 	&.selected{
-		$color: #07C160;
-		border-color: $color; background: $color;
-		.mogo-switch-bg{
-			transform: scaleX(0);
+		.mogo-switch{
+			&-bg{
+				transform: scaleX(1);
+			}
+			&-ball{
+				transform: translateX($w - $h);
+			}
 		}
-		.mogo-switch-ball{
-			transform: translateX(20px);
-		}
+
 	}
 }
 </style>

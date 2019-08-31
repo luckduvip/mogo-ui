@@ -7,6 +7,7 @@
 			<mogo-input :error="formErrors.includes('email')" v-model="formValues.email" label="邮箱" />
 
 			<mogo-input readonly type="number" v-model.number="formValues.clickTime" label="点击次数" @input-click="formValues.clickTime ++" />
+			<mogo-input type="date" v-model="formValues.date" label="时间" />
 
 			<mogo-input type="number" :error="formErrors.includes('phone')" v-model="formValues.phone" label="手机" />
 			<mogo-select :list="list" v-model="formValues.sex" label="性别"/>
@@ -54,6 +55,7 @@ export default{
 			/**表单验证结果**/
 			submitResult: '',
 			formValues: {
+				date: '',
 				clickTime: 0,
 				name: 'luckduvip',
 				nickname: '我是杜小蛙',
@@ -71,7 +73,6 @@ export default{
 			},
 			formErrors: [],
 			formRules: {
-
 				'name': { label: '用户名', isRequired: 1, reg: /^\S{6,20}$/, regError: '用户名必须为6-20位数字/字母/符号' },
 				'nickname': { label: '呢称', isRequired: 1, reg: /^.{3,16}$/, regError: '呢称必须为3-16位字符' },
 				'email': { label: '邮箱', reg:  /^\w+((.\w+)|(-\w+))@[A-Za-z0-9]+((.|-)[A-Za-z0-9]+).[A-Za-z0-9]+$/},

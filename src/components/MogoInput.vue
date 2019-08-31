@@ -3,8 +3,16 @@
 	<slot name="label" v-if="label !== false"><span class="mogo-label-text">{{label}}</span></slot>
 	<div class="mogo-label-main mogo-flex">
 		<div class="mogo-label-input">
-			<input :readonly="readonly" :placeholder="placeholder" v-if="type == 'number'" class="mogo-input" v-model.number="myVal" type="number" />
-			<input :readonly="readonly" :placeholder="placeholder" v-else class="mogo-input" v-model="myVal" :type="type"/>
+			<template v-if="type == 'date'">
+				<input :readonly="readonly" v-if="type == 'number'" class="mogo-input absolute" v-model.number="myVal" type="number" />
+				<input :readonly="readonly" v-else class="mogo-input absolute" v-model="myVal" :type="type"/>
+				<div v-if="propVal !=''" class="mogo-label-input-value">{{propVal}}</div>
+				<div v-else class="mogo-label-input-value placeholder">{{placeholder}}</div>
+			</template>
+			<template v-else>
+				<input :readonly="readonly" :placeholder="placeholder" v-if="type == 'number'" class="mogo-input" v-model.number="myVal" type="number" />
+				<input :readonly="readonly" :placeholder="placeholder" v-else class="mogo-input" v-model="myVal" :type="type"/>
+			</template>
 		</div>
 		<mogo-icon className="mogo-biaodan-baocuo" class="mogo-label-error" v-if="error" />
 		<slot name="append" ></slot>
@@ -17,7 +25,6 @@ import MogoIcon from '_supports/MogoIcon';
 export default{
 	data(){
 		return {
-			val: '',
 		}
 	},
 	model: {
@@ -43,7 +50,7 @@ export default{
 	computed: {
 		myVal: {
 			get(){
-				return this.val || this.propVal;
+				return this.propVal;
 			},
 			set(val){
 				this.$emit('inputHandle',val);
