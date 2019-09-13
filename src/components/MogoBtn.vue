@@ -1,6 +1,7 @@
 <template>
-	<div v-if="disabled" class="mogo-btn disable" :class="className"><slot/></div>
-	<button class="mogo-btn" :type="type" v-else :class="className"><slot/></button>
+	<button class="mogo-btn" :type="type" v-if="type ==='submit'" :class="className"><slot/></button>
+	<div v-else-if="disabled" class="mogo-btn disable" :class="className"><slot/></div>
+	<div v-else @click="callClick" class="mogo-btn" :class="className"><slot/></div>
 </template>
 
 <script>
@@ -11,10 +12,7 @@ export default{
 		 * 类型submit/button,默认button
 		 * @param {} {
 		 */
-		type: {
-			type: String, 
-			default: 'button'
-		},
+		type: { type: String, default: '' },
 		/**按钮类型
 		 * bg-radius  圆角背景
 		 * bd-radius  圆角边框空心
@@ -25,10 +23,15 @@ export default{
 		className: String,
 		disabled: Boolean
 	},
+	methods: {
+		callClick(){
+			this.$emit('callClick');
+		},
+	},
 	computed: {
 	}
 }
 </script>
-<style scoped lang="scss">
+<style lang="scss">
 @import '../scss/mogo-btn.scss';
 </style>

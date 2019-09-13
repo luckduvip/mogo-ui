@@ -61,7 +61,7 @@ export default{
 	},
 }
 </script>
-<style scoped lang="scss">
+<style lang="scss">
 .mogo-tab{ 
 	background: #fff;
 	display: flex; display: -webkit-flex; align-items: center; position: relative;

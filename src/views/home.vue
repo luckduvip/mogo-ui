@@ -25,6 +25,11 @@
 		<mogo-btn class="test-btn" disabled type="button" className="bd-circle">半圆边框</mogo-btn>
 		<mogo-btn class="test-btn" disabled type="button" className="bg-rect">矩形背景</mogo-btn>
 		<mogo-layer ref="mogoLayer"/>
+		<mogo-title>菊花</mogo-title>
+		<transition name="mogofade">
+			<mogo-loading fill="yellow" type="rect" mask="rgba(0,0,0,.5)" closeByClickMask @close="showLoading = false" v-show="showLoading" label="LOADING..." />
+		</transition>
+		<mogo-btn class="test-btn"  @callClick="showLoading = true" className="bg-radius">显示菊花</mogo-btn>
 	</div>
 </template>
 
@@ -37,9 +42,12 @@ import MogoMyItem from '_components/MogoMyItem';
 import MogoTitle from '_supports/MogoTitle';
 import MogoBtn from '_components/MogoBtn';
 import MogoLayer from '_components/MogoLayer';
+import MogoLoading from '_components/MogoLoading';
 	export default{
 		data(){
 			return {
+				/**是否显示菊花**/
+				showLoading: false,
 				tabId: '1',
 				tabs: [
 					{ id: '1', label: '我的' },
@@ -95,6 +103,7 @@ import MogoLayer from '_components/MogoLayer';
 		components: {MogoTab,MogoMyItem,MogoHeader,MogoPoint,
 MogoTitle, MogoBtn,
 			MogoLayer,
+			MogoLoading,
 		},
 
 	}

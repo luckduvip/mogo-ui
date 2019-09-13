@@ -245,7 +245,7 @@ npm run dev
 
 >> props解释
 
-+ type:String='button' button元素的type属性
++ type:String='' button元素的type属性,如果不为'submit'且非disable的情况下点击会emit('callClick')事件
 
 + className:String 样式
 	++ bg-radius  圆角背景
@@ -313,6 +313,26 @@ this.$refs.mogoLayer.openConfirm({
 		console.log(`the result ==${flag}`,this.myItems);
 	}
 },'rgba(0,0,0,.1)');
+
 ```
+
+### mogo-loading
+
+> 菊花
+
+>> props解释
+
++ type[String='default'] 菊花类型，目前有三种
+	'default' 圆点转成的圈圈
+	'lines'   几个圆弧组成的组合
+	'rect'    矩形组成的圆弧状组合
+
++ label[String/Boolean=true] 图标下面的文案,如果===true则不显示 
+
++ mask[String=''] 菊花遮罩背景
+
++ closeByClickMask[Boolean] 如果=== true时点击遮罩会emit('close')事件
+
++ fill[String='red'] type = 'default'/'rect'时的stroke颜色
 
 ### to be continue...
