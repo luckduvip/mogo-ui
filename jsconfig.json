@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "checkJs": true,
+        "baseUrl": ".",
+        "paths": {
+            "_lib/*": ["./js/lib/*"],
+            // "_components/*": ["./js/components/*"]
+        },
+        "module": "commonjs"
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}

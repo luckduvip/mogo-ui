@@ -7,40 +7,15 @@
 
 <script>
 import MogoBtn from '_components/MogoBtn';
+import {ValidateForm} from '_lib/Validate';
 export default{
 	props: {
 		formValues: {
 			type: Object,
 		},
-		formRules: Object,
+		formRules: Map,
 	},
 	methods: {
-		/**
-		 * 根据formRules来验证整个表单
-		 *
-		 * @returns {Promise}
-		 */
-		validateForm(){
-			return new Promise((resolve,reject)=>{
-				let message = [],
-					_arr = Object.entries(this.formRules);
-				let error = _arr.filter((item)=>{
-					let _result = this.validateItem(item[0],item[1]);
-					if(_result === false){
-						return false;
-					}else{
-						message.push(_result);
-						return true;
-					}
-				});
-				console.log('filter result',error);
-				if(error){
-					reject(message);
-				}else{
-					resolve();
-				}
-			})
-		},
 		/**
 		 * 验证单独的表单
 		 *
@@ -90,15 +65,20 @@ export default{
 		 */
 		submitHandle(e){
 			e.preventDefault();
-			this.validateForm()
+			ValidateForm(this.formValues,this.formRules)
 				.then((result)=>{
-					this.$emit('submitHandle',result);
-					return false;
-				}).catch((e)=>{
-					console.log('表单验证失败',e);
-					this.$emit('submitError',e);
-					return false;
+					console.log(result,'validate');
+					alert(result[0][1]);
 				})
+			// this.validateForm()
+			// 	.then((result)=>{
+			// 		this.$emit('submitHandle',result);
+			// 		return false;
+			// 	}).catch((e)=>{
+			// 		console.log('表单验证失败',e);
+			// 		this.$emit('submitError',e);
+			// 		return false;
+			// 	})
 		},
 	},
 	components: {MogoBtn,}

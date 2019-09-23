@@ -30,9 +30,16 @@ if (process.env.NODE_ENV === 'production') {
 			inject: false,
 			hash: true
 		}),
+		new HtmlWebpackPlugin({
+			template: path.resolve('./html/app.html'),
+			filename: 'app.html',
+			inject: false,
+			hash: true
+		}),
 	];
 	entry = {
 		main: './src/main.js',
+		app: './src/app.js',
 		base_css: './src/scss/base.scss',
 	};
 }
@@ -74,26 +81,25 @@ module.exports = {
 				],
 			},
 			{
-				test: /\.vue$/,
-				loader: 'vue-loader',
-				options: {
-					loaders: {
-						// Since sass-loader (weirdly) has SCSS as its default parse mode, we map
-						// the "scss" and "sass" values for the lang attribute to the right configs here.
-						// other preprocessors should work out of the box, no loader config like this necessary.
-						'scss': [
-							'vue-style-loader',
-							'css-loader',
-							'sass-loader'
-						],
-						'sass': [
-							'vue-style-loader',
-							'css-loader',
-							'sass-loader?indentedSyntax'
-						]
+				test: /\.tsx?$/,
+				use: [
+					{
+						loader: 'ts-loader',
+						options: {
+							transpileOnly: true
+						}
 					}
-					// other vue-loader options go here
-				}
+				]
+			},
+			{
+				test: /\.vue$/,
+				use: [{
+					loader: 'vue-loader',
+					options: {
+						ts: 'ts-loader',
+						scss: 'vue-style-loader!css-loader!sass-loader', // <style lang="scss">
+					}
+				}]
 			},
 			{
 				test: /\.js$/,
@@ -118,8 +124,9 @@ module.exports = {
 			'_supports': path.resolve('src/supports'),
 			'_views': path.resolve('src/views'),
 			'_images': path.resolve('images'),
+			'_lib': path.resolve('src/lib'),
 		},
-		extensions: ['*', '.js', '.vue', '.json']
+		extensions: ['*', '.js', '.vue', '.json', '.ts']
 	},
 	devServer: {
 		historyApiFallback: true,

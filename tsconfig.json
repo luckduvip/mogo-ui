@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "baseUrl": ".",
+        "paths": {
+            "_lib/*": ["./src/lib/*"]
+        },
+        "module": "commonjs"
+    },
+    "exclude": [
+        "node_modules"
+    ],
+	"files": [
+        "src/lib/test.ts",
+        "src/lib/Validate.ts"
+	]
+}
