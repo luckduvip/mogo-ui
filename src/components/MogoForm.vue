@@ -57,7 +57,7 @@ export default{
 	components: {MogoBtn,}
 }
 </script>
-<style scoped lang="scss">
+<style lang="scss">
 .test-btn{
 	width: 720px; margin: 20px auto;
 }
