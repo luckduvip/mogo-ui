@@ -1,32 +1,29 @@
 <template>
 	<div class="outer">
 		<mogo-title title="">带验证的表单</mogo-title>
-		<mogo-form :formRules="formRules" :formValues="formValues" @submitHandle="submitHandle" @submitError="submitError" >
-			<mogo-input :error="formErrors.includes('name')" v-model="formValues.name" label="用户名" />
-			<mogo-input :error="formErrors.includes('nickname')" v-model="formValues.nickname" label="呢称" />
-			<mogo-input :error="formErrors.includes('email')" v-model="formValues.email" label="邮箱" />
+		<mogo-form validateAfterBlur :formRules="rules" :formValues="formValues" @validateInput="validateInputHandle" @submitHandle="submitHandle" @submitError="submitError" >
+			<mogo-input name="name" :error="formErrors.includes('name')" v-model="formValues.name" label="用户名" />
+			<mogo-input name="nickname" :error="formErrors.includes('nickname')" v-model="formValues.nickname" label="呢称" />
+			<mogo-input name="email" :error="formErrors.includes('email')" v-model="formValues.email" label="邮箱" />
+			<mogo-input name="phone" type="number" :error="formErrors.includes('phone')" v-model="formValues.phone" label="手机" />
+			<mogo-input name="date" type="date" v-model="formValues.date" label="时间" />
 
-			<mogo-input readonly type="number" v-model.number="formValues.clickTime" label="点击次数" @input-click="formValues.clickTime ++" />
-			<mogo-input type="date" v-model="formValues.date" label="时间" />
+			<mogo-title>readonly input</mogo-title>
+			<mogo-input name="clickTime" readonly type="number" v-model.number="formValues.clickTime" label="点击次数" @input-click="formValues.clickTime ++" />
 
-			<mogo-input type="number" :error="formErrors.includes('phone')" v-model="formValues.phone" label="手机" />
-			<mogo-select :list="list" v-model="formValues.sex" label="性别"/>
 
-			<mogo-input :error="formErrors.includes('password')" ref="input_password" v-model="formValues.password" label="密码" type="password" />
-			<mogo-input :error="formErrors.includes('rePassword')" v-model="formValues.rePassword" label="确认密码" type="password" />
-			<mogo-input :error="formErrors.includes('age')" v-model="formValues.age" label="验证码" type="number" append="1">
+			<mogo-title>密码</mogo-title>
+			<mogo-input name="password"  :error="formErrors.includes('password')" ref="input_password" v-model="formValues.password" label="密码" type="password" />
+			<mogo-input name="rePassword" :error="formErrors.includes('rePassword')" v-model="formValues.rePassword" label="确认密码" type="password" />
+
+			<mogo-title>验证码</mogo-title>
+			<mogo-input name="code" tag="div" :error="formErrors.includes('code')" v-model="formValues.code" label="验证码" type="phone" append="1">
 				<template slot="append">
 					<msg-btn ref="msgBtn" @before-send-msg="beforeSendMsg" />
 				</template>
 			</mogo-input>
-			<mogo-checkbox-group :list="list" v-model="formValues.checkboxGroupIds" />
-			<mogo-radio-group :list="list" v-model="formValues.radioCId" />
-			<mogo-slider v-model="formValues.sliderVal" :min="sliderMin" :max="sliderMax" class="my-slider" :unit="sliderUnit" />
-
-			<mogo-slider v-model="formValues.sliderVal" :min="sliderMin" :max="sliderMax" class="my-slider" />
-			<mogo-protocol v-model="formValues.switchVal" label="阅读并同意" :linkInfo="linkInfo"></mogo-protocol>
+			<mogo-btn slot="button" class="test-btn" type="submit" className="bg-radius">123提交</mogo-btn>
 		</mogo-form>
-		</mogo-panel>
 			<h3>{{formValues.sliderVal}}</h3>
 		<mogo-title title="">开关</mogo-title>
 		<mogo-switch v-model="switchVal" />
@@ -46,6 +43,7 @@ import MogoProtocol from '_components/MogoProtocol';
 import MogoForm from '_components/MogoForm';
 import MogoSlider from '_components/MogoSlider';
 import MsgBtn from '_supports/MsgBtn';
+import MogoBtn from '_components/MogoBtn';
 
 import MogoTitle from '_supports/MogoTitle';
 import MogoPanel from '_components/MogoPanel';
@@ -53,34 +51,39 @@ export default{
 	data(){
 		return {
 			/**表单验证结果**/
-			submitResult: '',
 			formValues: {
-				date: '',
-				clickTime: 0,
 				name: 'luckduvip',
 				nickname: '我是杜小蛙',
 				email: 'luckduvip@163.com',
-				phone: '',
-				password: 'lu',
-				rePassword: 'lulululul1ulu',
-				age: 0,
-				sex: 1,
-				checkboxGroupIds: [],
-				radioCId: 1,
-				avatar: '',
-				switchVal: true,
-				sliderVal: 50,
+				phone: '13928949394',
+				code: '12345',
+
+				date: '',
+				clickTime: 0,
+				password: 'luck123',
+				rePassword: 'luck123',
 			},
+			submitResult: '',
 			formErrors: [],
-			formRules: {
-				'name': { label: '用户名', isRequired: 1, reg: /^\S{6,20}$/, regError: '用户名必须为6-20位数字/字母/符号' },
-				'nickname': { label: '呢称', isRequired: 1, reg: /^.{3,16}$/, regError: '呢称必须为3-16位字符' },
-				'email': { label: '邮箱', reg:  /^\w+((.\w+)|(-\w+))@[A-Za-z0-9]+((.|-)[A-Za-z0-9]+).[A-Za-z0-9]+$/},
-				'age': { label: '年龄', min: 18, max: 60, },
-				'phone': { label: '手机', reg:/^1[3456789]\d{9}$/ }, 
-				'password': { label: '密码', reg: /^\S{10,20}$/, regError: '密码必须由10-20位英文/数字/符号组成' },
-				'rePassword': { label: '确认密码', validate: function(val){ console.log('this',this,val); if(val == this.password){ return false; } return '密码和确认密码不一致' }, },
-			},
+			rules: new Map([
+				['name', { symbol_id: Symbol(), label: '用户名', type: 'name', isRequire: 1}], 
+				['nickname', { symbol_id: Symbol(), label: '昵称', type: 'nickname', isRequire: 1}], 
+				['email', { symbol_id: Symbol(), label: '邮箱', type: 'email', isRequire: 1}], 
+				['phone', {symbol_id: Symbol(), label: '手机', type: 'mobile', isRequire: 1 }], 
+				['code', { symbol_id: Symbol(), label: '验证码', type: 'code', isRequire: 1}], 
+				['data', { symbol_id: Symbol(), label: '日期', isRequire: 1}], 
+
+				['password', {symbol_id: Symbol(),label: '密码', type:'password', isRequire: 1 }],
+				['rePassword', {symbol_id: Symbol(),label: '确定密码', isRequire: 1, validateFun: (val) => { 
+					return new Promise((resolve,reject)=>{
+						if(this.formValues.password == val){
+							resolve(true);
+						}else{
+							resolve('两次输入的密码不一致');
+						}
+					})
+				} }],
+			]),
 			list: [
 				{id: 1,label:'男'},
 				{id: 0,label:'女'},
@@ -98,16 +101,36 @@ export default{
 			textareaVal: '',
 		}
 	},
+	watch: {
+	},
 	methods: {
 		/**表单验证成功**/
 		submitHandle(){
+			this.formErrors = [];
 			this.submitResult = '成功'
+			alert('all right');
 		},
 		/**表单验证失败**/
 		submitError(e){
 			console.log('error',e);
-			this.formErrors = e.map(item=>item.input);
-			this.submitResult = e.message;
+			this.formErrors = e.map(item=>item[0]);
+			this.submitResult = e[0][1];
+		},
+
+		/**验证单个表单的结果 */
+		validateInputHandle(e){
+			if(typeof e === 'string'){
+				let idx = this.formErrors.indexOf(e);
+				if(idx !== -1){
+					this.formErrors.splice(idx,1);
+				}
+			}else{
+				console.log(e);
+				let idx = this.formErrors.indexOf(e[0]);
+				if(idx === -1){
+					this.formErrors.push(e[0]);
+				}
+			}
 		},
 		beforeSendMsg(){
 			console.log(this.$refs.msgBtn);
@@ -115,6 +138,7 @@ export default{
 		},
 	},
 	components: {MogoRadioGroup,MogoCheckboxGroup,MogoInput,MogoSwitch,MogoTextarea,MogoSelect,MogoProtocol,MogoForm,MogoPanel,MogoSlider,MsgBtn,
+		MogoBtn,
 		MogoTitle,
 	},
 }

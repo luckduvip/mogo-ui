@@ -110,6 +110,8 @@ npm run dev
 
 >> props解释
 
++ name: String input标签的name属性
+
 + type:String input的type
 
 + placeholder:String placeholder
@@ -184,6 +186,155 @@ npm run dev
 	```
 			<mogo-select :list="list" v-model="formValues.sex" label="性别"/>
 	```
+### mogo-form
+
+> 表单组件 主要功能为验证表单
+
+>> props解释
+
++ formValues:Object 表单里面的值列表
+
++ formRules: Map 表单验证规则
+
++ validateAfterBlur : Boolean 表单里面的元素是否在blur时验证属性，如果为true时mogo-input里面的name属性必须===formRulers里面的key
+  
+>> 发送事件
+
++ validateInput 表单验证单个元素时发送的事件，返回类型  inputName: String 表单当前表单通过验证 / [inputName,error] 不通过
+
++ submitError 表单触发submit事件但表单验证不通过时返回错误信息. eg. [['表单name','错误信息1'],['表单name2','错误信息2']]
+
++ submitHandle 表单触发submit 事件且验证通过
+
+>> 使用例子 
+```
+<template>
+<div>
+	<mogo-title>表单元素</mogo-title>
+
+	<mogo-form :formRules="rules" :formValues="formValues" @submitHandle="submitHandle" @submitError="submitError" >
+		<mogo-input :error="formErrors.includes('name')" v-model="formValues.name" label="用户名" />
+		<mogo-input :error="formErrors.includes('nickname')" v-model="formValues.nickname" label="呢称" />
+		<mogo-input :error="formErrors.includes('email')" v-model="formValues.email" label="邮箱" />
+		<mogo-input type="number" :error="formErrors.includes('phone')" v-model="formValues.phone" label="手机" />
+		<mogo-input type="date" v-model="formValues.date" label="时间" />
+
+		<mogo-title>readonly input</mogo-title>
+		<mogo-input readonly type="number" v-model.number="formValues.clickTime" label="点击次数" @input-click="formValues.clickTime ++" />
+
+
+		<mogo-title>密码</mogo-title>
+		<mogo-input :error="formErrors.includes('password')" ref="input_password" v-model="formValues.password" label="密码" type="password" />
+		<mogo-input :error="formErrors.includes('rePassword')" v-model="formValues.rePassword" label="确认密码" type="password" />
+
+		<mogo-title>验证码</mogo-title>
+		<mogo-input tag="div" :error="formErrors.includes('code')" v-model="formValues.code" label="验证码" type="phone" append="1">
+			<template slot="append">
+				<msg-btn ref="msgBtn" @before-send-msg="beforeSendMsg" />
+			</template>
+		</mogo-input>
+		<mogo-btn slot="button" class="test-btn" type="submit" className="bg-radius">123提交</mogo-btn>
+	</mogo-form>
+</div>
+</template>
+
+<script>
+import MogoTitle from '_supports/MogoTitle';
+import MogoFooter from '_components/MogoFooter';
+
+import MogoInput from '_components/MogoInput';
+import MogoForm from '_components/MogoForm';
+
+import MogoBtn from '_components/MogoBtn';
+
+import MsgBtn from '_supports/MsgBtn';
+
+export default{
+	data(){
+		return {
+			formValues: {
+				name: 'luckduvip',
+				nickname: '我是杜小蛙',
+				email: 'luckduvip@163.com',
+				phone: '13928949394',
+				code: '12345',
+
+				date: '',
+				clickTime: 0,
+				password: 'luck123',
+				rePassword: 'luck123',
+			},
+			submitResult: '',
+			formErrors: [],
+			rules: new Map([
+				['name', { symbol_id: Symbol(), label: '用户名', type: 'name', isRequire: 1}], 
+				['nickname', { symbol_id: Symbol(), label: '昵称', type: 'nickname', isRequire: 1}], 
+				['email', { symbol_id: Symbol(), label: '邮箱', type: 'email', isRequire: 1}], 
+				['phone', {symbol_id: Symbol(), label: '手机', type: 'mobile', isRequire: 1 }], 
+				['code', { symbol_id: Symbol(), label: '验证码', type: 'code', isRequire: 1}], 
+				['data', { symbol_id: Symbol(), label: '日期', isRequire: 1}], 
+
+				['password', {symbol_id: Symbol(),label: '密码', type:'password', isRequire: 1 }],
+				['rePassword', {symbol_id: Symbol(),label: '确定密码', isRequire: 1, validateFun: (val) => { 
+					return new Promise((resolve,reject)=>{
+						if(this.formValues.password == val){
+							resolve(true);
+						}else{
+							resolve('两次输入的密码不一致');
+						}
+					})
+				} }],
+			]),
+		}
+	},
+	methods: {
+		/**表单验证成功**/
+		submitHandle(){
+			this.formErrors = [];
+			this.submitResult = '成功'
+		},
+		/**表单验证失败**/
+		submitError(e){
+			console.log('error',e);
+			this.formErrors = e.map(item=>item[0]);
+			this.submitResult = e[0][1];
+		},
+		beforeSendMsg(){
+			console.log(this.$refs.msgBtn);
+			this.$refs.msgBtn.sendedHandle();
+		},
+
+	},
+	mounted(){
+	},
+	components: {MogoFooter,
+		MogoTitle,
+		MogoForm,
+		MogoInput,
+		MsgBtn,
+		MogoBtn,
+	},
+}
+</script>
+
+<style lang="scss">
+#test-mogo-tab{ 
+	.mogo-tab-item{
+		margin: 0 20px; color: #333;
+		&.active{
+			color: red;
+		}
+	}
+	.mogo-tab-bottom{
+		background: red;
+	}
+}
+</style>
+<style scoped lang="scss">
+.mogo-tab{ height: 80px; }
+</style>
+
+```
 
 ### mogo-slider
 

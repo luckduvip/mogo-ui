@@ -1,7 +1,9 @@
 <template>
-	<form @submit="submitHandle">
+	<form ref="myform" @submit="submitHandle">
 		<slot />
-		<mogo-btn class="test-btn" type="submit" className="bg-radius">提交</mogo-btn>
+		<slot name="button">
+			<mogo-btn class="test-btn" type="submit" className="bg-radius">提交</mogo-btn>
+		</slot>
 	</form>
 </template>
 
@@ -10,54 +12,12 @@ import MogoBtn from '_components/MogoBtn';
 import {ValidateForm} from '_lib/Validate';
 export default{
 	props: {
-		formValues: {
-			type: Object,
-		},
+		formValues: { type: Object, },
 		formRules: Map,
+		/**是否在blur后验证 */
+		validateAfterBlur: Boolean,
 	},
 	methods: {
-		/**
-		 * 验证单独的表单
-		 *
-		 * @param {Object} ruler 表单需要验证的描述
-		 * @returns {Boolean/Object} 如果返回false则表单表单验证通过，否则就会返回失败提示
-		 */
-		validateItem(input,ruler){
-			if(this.formValues.hasOwnProperty(input)){
-				let _cVal = this.formValues[input];
-				if(ruler.oldVal == _cVal){
-					return ruler.validateResult;
-				}
-				let _result = false;
-				ruler.oldVal = _cVal;
-				if(ruler.isRequired && _cVal == ''){
-					_result = ruler.requireError || `${ruler.label}不能为空`;
-				}
-				if(_cVal != '' && ruler.reg && !ruler.reg.test(_cVal)){
-					_result = ruler.regError || `请输入正确的${ruler.label}`;
-				}
-				if(ruler.validate){
-					_result = ruler.validate.apply(this.formValues,[_cVal]);
-				}
-				if(ruler.min && _cVal < ruler.min){
-					_result = `${ruler.label}不能小于${ruler.min}`;
-				}
-				if(ruler.max && _cVal > ruler.max){
-					_result = `${ruler.label}不能大于${ruler.max}`;
-				}
-				if(_result === false){
-					ruler.validateResult = _result;
-					return _result;
-				}
-				_result = {
-					message: _result,
-					input
-				}
-				ruler.validateResult = _result;
-				return _result;
-			}
-			return false;
-		},
 		/**
 		 * 提交处理方法
 		 *
@@ -67,19 +27,32 @@ export default{
 			e.preventDefault();
 			ValidateForm(this.formValues,this.formRules)
 				.then((result)=>{
-					console.log(result,'validate');
-					alert(result[0][1]);
+					console.log('result ',result);
+					if(result.length){
+						this.$emit('submitError',result);
+					}else{
+						this.$emit('submitHandle');
+					}
 				})
-			// this.validateForm()
-			// 	.then((result)=>{
-			// 		this.$emit('submitHandle',result);
-			// 		return false;
-			// 	}).catch((e)=>{
-			// 		console.log('表单验证失败',e);
-			// 		this.$emit('submitError',e);
-			// 		return false;
-			// 	})
 		},
+	},
+	mounted(){
+		if(this.validateAfterBlur){
+			let _self = this;
+			this.$refs.myform.querySelectorAll('input').forEach((node)=>{
+				node.addEventListener('blur',function(e){
+					console.log(this.name);
+					ValidateForm(_self.formValues,_self.formRules,this.name)
+						.then((result)=>{
+							if(result.length){
+								_self.$emit('validateInput',result[0]);
+							}else{
+								_self.$emit('validateInput',this.name);
+							}
+						})
+				})
+			})
+		}
 	},
 	components: {MogoBtn,}
 }

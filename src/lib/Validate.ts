@@ -24,8 +24,9 @@ let Validates: Map<string,IValidate> = new Map();
 let tmpValidateMap:Map<Symbol,Map<any,boolean | string>> = new Map();
 
 Validates.set('passowrd',{ label : '密码', isRequire: true, reg: /^\S{6,18}$/, regErrorTips : '密码必须由6-18位英文/数字/符号组成' });
+Validates.set('email',{ label: '邮箱', reg: /^[a-zA-Z0-9_-]+@\S+\.\S+$/, regErrorTips: '邮箱规则不正确' });
 Validates.set('mobile',{ label: '手机号码', reg: /^1[3456789]\d{9}$/ });
-Validates.set('nickname',{ label: '用户名', isRequire: true, reg: /^\S{6,20}$/, regErrorTips: '用户名必须为6-20位数字/字母/符号' });
+Validates.set('nickname',{ label: '用户名', isRequire: true, reg: /^.{3,20}$/, regErrorTips: '昵称必须为3-20位' });
 Validates.set('code',{ label: '验证码', isRequire: true, reg: /^\d{5}$/, regErrorTips: '验证码是由5位数字组成' });
 
 function ValidateItem(key:string,val:any,ruler:IValidate):Promise<Array<boolean | string>>{
@@ -33,6 +34,7 @@ function ValidateItem(key:string,val:any,ruler:IValidate):Promise<Array<boolean 
         if(ruler.type && Validates.has(ruler.type)){
             ruler = {...Validates.get(ruler.type),...ruler};
         }
+
         if(ruler.symbol_id){
             if(tmpValidateMap.has(ruler.symbol_id)){
                 if(tmpValidateMap.get(ruler.symbol_id).has(val)){
@@ -71,63 +73,23 @@ function ValidateItem(key:string,val:any,ruler:IValidate):Promise<Array<boolean 
  * @param formRulers any 表单验证规则
  * @return boolean 验证结果
  */
-export const ValidateForm = function(formValues:any,formRulers:any, validate) : Promise<Array<any>>{
+export const ValidateForm = function(formValues:any,formRulers:any, validateAll: string = 'all') : Promise<Array<any>>{
     return new Promise((resolve,reject)=>{
         let promiseArray = [];
-        Object.keys(formValues).forEach((key)=>{
-            if(formRulers.has(key)){
-                promiseArray.push(ValidateItem(key,formValues[key],formRulers.get(key)));
+        if(validateAll === 'all'){
+            Object.keys(formValues).forEach((key)=>{
+                if(formRulers.has(key)){
+                    promiseArray.push(ValidateItem(key,formValues[key],formRulers.get(key)));
+                }
+            })
+        }else{
+            if(formValues.hasOwnProperty(validateAll) && formRulers.has(validateAll)){
+                promiseArray.push(ValidateItem(validateAll,formValues[validateAll],formRulers.get(validateAll)));
             }
-        })
+        }
         Promise.all(promiseArray)
             .then((result)=>{
                 resolve(result.filter((item)=>{ return item[1] !== true}));
             })
     })
 }
-
-// enum MYRULERS {
-//     password = { label:string = '密码', isRequire: 1, reg: /^\S{6,18}$/, regError: '密码必须由6-18位英文/数字/符号组成' },
-//     mobile = { label: '手机', reg: /^1[3456789]\d{9}$/ },
-//     email = { label: '邮箱', reg: /^\w+((.\w+)|(-\w+))@[A-Za-z0-9]+((.|-)[A-Za-z0-9]+).[A-Za-z0-9]+$/ },
-//     name = { label: '用户名', isRequire: 1, reg: /^\S{6,20}$/, regError: '用户名必须为6-20位数字/字母/符号' },
-//     nickname = { label: '呢称', isRequire: 1, },
-//     code = { label: '验证码', isRequire: 1, reg: /^\d{5}$/, regError: '验证码是由5位数字组成' },
-// }
-// let ValidateItem = function(value:any,ruler:object):boolean{
-// 	if(ruler.type){
-// 		ruler = {...MYRULERS[ruler.type], ...ruler};
-// 	}
-// 	console.log(value,ruler);
-// 	if(ruler.isRequire && value == ''){
-// 		return `${ruler.label}不能为空`;
-// 	}
-// 	if(ruler.reg && !ruler.reg.test(value)){
-// 		return ruler.regError || `${ruler.label}格式有误`;
-// 	}
-// 	if(ruler.validate){
-// 		let _validateResult = ruler.validate(value);
-// 		if(_validateResult != ''){
-// 			return _validateResult;
-// 		}
-// 	}
-// 	return '';
-// }
-// export const ValidateForm = function(formValues: object, rules: any, label:string = 'all'): string {
-// 	let result = '';
-// 	if(label != 'all'){
-// 		return ValidateItem(formValues[label],rules.get(label));
-// 	}
-// 	for(let key in formValues){
-// 		let item = formValues[key];
-// 		if(rules.has(key)){
-// 			let _result = ValidateItem(item,rules.get(key));
-// 			if(_result != ''){
-// 				result = _result;
-// 				break;
-// 			}
-// 		}
-// 	}
-// 	return result;
-// }
-
