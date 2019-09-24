@@ -255,8 +255,8 @@ export default{
 			formValues: {
 				name: 'luckduvip',
 				nickname: '我是杜小蛙',
-				email: 'luckduvip@163.com',
-				phone: '13928949394',
+				email: 'luckluckluck@139.com',
+				phone: '13988888888',
 				code: '12345',
 
 				date: '',

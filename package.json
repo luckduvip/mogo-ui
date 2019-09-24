@@ -1,7 +1,7 @@
 {
 	"name": "mogo-ui",
 	"description": "mogo company vue ui",
-	"version": "1.0.24",
+	"version": "1.0.25",
 	"author": "luckduvip <luckduvip@163.com>",
 	"main": "dist/main.js",
 	"license": "MIT",
