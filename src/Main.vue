@@ -18,7 +18,7 @@
 		<mogo-input :error="formErrors.includes('rePassword')" v-model="formValues.rePassword" label="确认密码" type="password" />
 
 		<mogo-title>验证码</mogo-title>
-		<mogo-input :error="formErrors.includes('code')" v-model="formValues.code" label="验证码" type="phone" append="1">
+		<mogo-input tag="div" :error="formErrors.includes('code')" v-model="formValues.code" label="验证码" type="phone" append="1">
 			<template slot="append">
 				<msg-btn ref="msgBtn" @before-send-msg="beforeSendMsg" />
 			</template>

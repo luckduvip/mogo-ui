@@ -1,8 +1,8 @@
 <template>
-<label class="mogo-label" @click="clickHandle">
+<div :is="tag"  class="mogo-label" @click="clickHandle">
 	<slot name="label" v-if="label !== false"><span class="mogo-label-text">{{label}}</span></slot>
 	<div class="mogo-label-main mogo-flex">
-		<div class="mogo-label-input">
+		<div :is="tag!='label'?'label':'div'" class="mogo-label-input mogo-flex">
 			<template v-if="type == 'date'">
 				<input :readonly="readonly" v-if="type == 'number'" class="mogo-input absolute" v-model.number="myVal" type="number" />
 				<input :readonly="readonly" v-else class="mogo-input absolute" v-model="myVal" :type="type"/>
@@ -17,7 +17,7 @@
 		<mogo-icon className="mogo-biaodan-baocuo" class="mogo-label-error" v-if="error" />
 		<slot name="append" ></slot>
 	</div>
-</label>
+</div>
 </template>
 
 <script>
@@ -39,6 +39,7 @@ export default{
 		append: { type: [String,Boolean], default: false },
 		error: { type: [Boolean], default: false },
 		readonly: Boolean, //如果为true则点击时发送事件
+		tag: { type: String, default: 'label' },
 	},
 	methods: {
 		clickHandle(e){

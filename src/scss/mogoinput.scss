@@ -19,6 +19,7 @@
 	}
 	&-input{
 		@include mogo-flex-item; 
+		height: 100%; align-items: center;
 		position: relative;
 		.mogo-input{
 			@include mogo-flex-item;

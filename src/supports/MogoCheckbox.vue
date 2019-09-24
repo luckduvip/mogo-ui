@@ -4,7 +4,7 @@
 	<slot name="label"></slot>
 	<div class="mogo-label-main mogo-flex">
 		<slot>
-		<div class="mogo-label-input">
+		<div class="mogo-label-input mogo-flex">
 			{{info.label}}
 		</div>
 		</slot>

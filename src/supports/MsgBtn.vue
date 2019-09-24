@@ -62,6 +62,8 @@ export default{
 	@include mogo-radius(8px);
 	width: 160px; height: 58px; color: $color_red; font-size: 26px; border: .5px solid $color_red; justify-content: center; margin-left: 20px; display: block; line-height: 56px;;
 	text-align: center;
+	-webkit-user-select:none;
+   	user-select:none;
 	&.disable{
 		border-color: #d8d8d8; color: #d8d8d8;
 	}
